@@ -19,8 +19,8 @@ model:
     num_channels: 3
     shuffle_patches: False
     freeze_liere : False
-    # rotary_embedding_per_layer: False
-    # rotary_embedding_per_head: False
+    rotary_embedding_per_layer: True
+    rotary_embedding_per_head: True
 
 trainer: 
   max_epochs: 200
