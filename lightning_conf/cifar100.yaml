@@ -1,0 +1,58 @@
+optimizer:
+  class_path: torch.optim.Adam
+  init_args:
+    lr: 1E-4 # Keep in sync with below. Not sure which one is real.
+
+model:
+  class_path: LiereImageClassification
+  init_args:
+    learning_rate: 1E-4
+    imsize: 32
+    model_architecture: liere
+    model_size: large
+    patch_size: [4, 4]
+    num_classes: 100
+    input_dimensionality: 2
+    emb_dropout: 0.1
+    attn_dropout: 0.1
+    # input_type: IMAGES
+    num_channels: 3
+    shuffle_patches: False
+    freeze_liere : False
+    # rotary_embedding_per_layer: False
+    # rotary_embedding_per_head: False
+
+trainer: 
+  max_epochs: 200
+  logger:
+    init_args:
+      name: "absolute_cifar100"
+      # project: cifar100
+  callbacks:
+    - class_path: FLOPsAnalysisCallback
+      init_args:
+        input_shape: [1, 3, 32, 32]
+    - class_path: lightning.pytorch.callbacks.LearningRateMonitor
+      init_args:
+        logging_interval: "epoch"
+    - class_path: lightning.pytorch.callbacks.ModelCheckpoint
+      init_args:
+        dirpath: "checkpoints/absolute_cifar100_oldmodel"
+        save_last: True
+        save_top_k: 0
+        every_n_train_steps: 50
+
+lr_scheduler:
+  class_path: torch.optim.lr_scheduler.CosineAnnealingLR
+  init_args:
+    T_max: 200
+
+data:
+  class_path: lightning_modules.lightning_data_image.Cifar100
+  init_args:
+    per_device_batch_size: 128
+    imsize: 32
+    ablation_factor: 1
+
+# we usually did 8xL4s on cloud. We replace with 4xL40
+#per_device_batch_size: 64

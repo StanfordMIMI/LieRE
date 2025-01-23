@@ -1,0 +1,19 @@
+seed_everything: true
+model:
+  class_path: LiereImageClassification
+
+trainer:
+  strategy: "ddp"
+  default_root_dir: "/dataNAS/people/sostm/vit_rope_scan/checkpoints"
+  precision: "bf16-mixed"
+  logger:
+    class_path: lightning.pytorch.loggers.WandbLogger
+    init_args:
+      log_model: False # Don't save checkpoints to wandb
+      project: "cifar10-ablation"
+      entity: "brophie"
+
+# optimizer:
+#   class_path: torch.optim.Adam
+#   init_args:
+#     lr: 1E-4

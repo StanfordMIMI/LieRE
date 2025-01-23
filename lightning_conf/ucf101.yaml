@@ -1,0 +1,47 @@
+model:
+  class_path: LiereImageClassification
+  init_args:
+    learning_rate: 1E-4
+    model_architecture: absolute #["swin_3d","vivit", "naver", "liere"]
+    model_size: "tiny"
+    imsize: [8, 224, 224]
+    patch_size: [2, 16, 16]
+    num_classes: 101
+    input_dimensionality: 3
+    max_batch_size: 512 # TODO WHAT DOES THIS DO FOR 3d images?
+    emb_dropout: 0.1
+    attn_dropout: 0.1
+    # input_type: THREE_D_IMAGES
+    num_channels: 3
+    mixup: False
+    # rotary_embedding_per_layer: False
+    # rotary_embedding_per_head: False
+    # pretrained_weights_path: vit_b_16-c867db91.pth
+
+trainer: 
+  max_epochs: 200
+  num_sanity_val_steps: 0
+  accumulate_grad_batches: 2
+  # strategy: "deepspeed_stage_3"
+  accelerator: "cuda"
+  logger:
+    init_args:
+      name: "ucf101_absolute"
+      project: "ucf101"
+  callbacks:
+    - class_path: lightning.pytorch.callbacks.ModelCheckpoint # Don't log checkpoints for cifar100
+      init_args:
+        # dirpath: null  # Disable default dirpath
+        # save_last: false
+        # dirpath: "/checkpoints/ufc101_absolute"
+        dirpath: "/dataNAS/people/sostm/vit_rope_scan/checkpoints"
+        save_last: True
+        every_n_train_steps: 0 # Disable the callback
+        save_top_k: 1
+
+data:
+  class_path: lightning_modules.lightning_data_image.UCF101_fast
+  init_args:
+    per_device_batch_size: 10
+    imsize: [8, 224, 224]
+    data_dir: /ucf101
