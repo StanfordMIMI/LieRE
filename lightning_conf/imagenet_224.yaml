@@ -17,8 +17,8 @@ model:
     attn_dropout: 0.1
     # input_type: IMAGES
     num_channels: 3
-    rotary_embedding_per_layer: False
-    rotary_embedding_per_head: False
+    rotary_embedding_per_layer: True
+    rotary_embedding_per_head: True
 
 trainer: 
   max_epochs: 200
