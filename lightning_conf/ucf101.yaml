@@ -14,8 +14,8 @@ model:
     # input_type: THREE_D_IMAGES
     num_channels: 3
     mixup: False
-    # rotary_embedding_per_layer: False
-    # rotary_embedding_per_head: False
+    rotary_embedding_per_layer: True
+    rotary_embedding_per_head: True
     # pretrained_weights_path: vit_b_16-c867db91.pth
 
 trainer: 
