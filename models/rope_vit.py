@@ -272,8 +272,9 @@ class LierePositionEncoder(PositionEncoderBase):
         
 
         # exp_method = ExponentiationMethod.EXPONENTIATE_ONE_SHOT
-        exp_method = ExponentiationMethod.EXPONENTIATE_ONE_SHOT
-        # exp_method = ExponentiationMethod.EXPONENTIATE_LOOP
+        # exp_method = ExponentiationMethod.EXPONENTIATE_ONE_SHOT
+        # more memory efficient
+        exp_method = ExponentiationMethod.EXPONENTIATE_LOOP
 
         match exp_method:
             case ExponentiationMethod.RETURN_POSITIONS:
@@ -283,6 +284,7 @@ class LierePositionEncoder(PositionEncoderBase):
             case ExponentiationMethod.EXPONENTIATE_LOOP:
                 exponentiated_results = []
                 for i in range(generator_pos.shape[2]):
+                    # we used torch.float32 in the paper, torch.float16 could be sufficient and much more efficient
                     exponentiated_results.append(torch.matrix_exp(generator_pos[:, :, i:i+1,...].to(dtype=torch.float32).contiguous().to(dtype=dtype)))
                 return torch.cat(exponentiated_results, dim=2)
             case _:
