@@ -3,6 +3,8 @@
 While Rotary Position Embeddings (RoPE) for large language models have become widely adopted, their application for other modalities has been slower. 
 Here, we introduce Lie group Relative position Encodings (LieRE) that goes beyond RoPE in supporting n-dimensional inputs. We evaluate the performance of LieRE on 2D and 3D image classification tasks and observe that LieRE leads to marked relative improvements in performance (up to 9.7% for 2D and up to 25.5% for 3D), training efficiency (3.5x reduction), data efficiency (30%) compared to the baselines of DeiT III, RoPE-Mixed and Vision-Llama.
 
+[Overview](liere_sketch.png "")
+
 # Implementation for computing the rotation matrices
 We here share the code for implementing the rotation matrices. In short, every rotation matrix can be represented as the matrix exponential of a skew-symmetric matrix and we make the matrix learnable by parametrizing the rotations with generators before the matrix exponential.
 ```python
