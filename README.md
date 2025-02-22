@@ -29,11 +29,12 @@ rotation = torch.matrix_exp(generator_pos.to(dtype=torch.float32)).to(dtype=posi
 # Base repo
 We used the transformer implementation and default hyperparameters of https://github.com/kentaroy47/vision-transformers-cifar10.
 
-# Work in progress
+# Usage
 To reproduce the results on CIFAR-100 use the follow command
 ```sbatch -c 48 --gres=gpu:l40:4 --nodelist=rae1 --time=00:00:00 lightning_cifar100.sh```
 You can choose between the options `liere`, `rope_mixed`, `absolute` and `visionllama` for comparing position encodings. 
 
+# Citation
 If you find this useful, please cite
 ```
 @article{ostmeier2024liere,
