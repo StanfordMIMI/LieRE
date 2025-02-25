@@ -109,6 +109,7 @@ class Transformer(nn.Module):
                     # This should only be called for liere and naver
                     if positional_transforms.shape[2] > 1:
                         # Use layer-specific transforms if available
+                        # [1, num_token, layers, head, generator_dim, generator_dim]
                         positional_transforms = positional_transforms[
                             :, :, i, ...
                         ].unsqueeze(2)
