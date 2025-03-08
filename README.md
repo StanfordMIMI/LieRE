@@ -1,13 +1,30 @@
-# LieRE: Generalizing Rotary Position Encodings
+# 🔄 LieRE: Generalizing Rotary Position Encodings
 
-While Rotary Position Embeddings (RoPE) for large language models have become widely adopted, their application for other modalities has been slower. 
-Here, we introduce Lie group Relative position Encodings (LieRE) that goes beyond RoPE in supporting n-dimensional inputs. We evaluate the performance of LieRE on 2D and 3D image classification tasks and observe that LieRE leads to marked relative improvements in performance (up to 9.7% for 2D and up to 25.5% for 3D), training efficiency (3.5x reduction), data efficiency (30%) compared to the baselines of DeiT III, RoPE-Mixed and Vision-Llama.
+[![arXiv](https://img.shields.io/badge/arXiv-2406.10322-b31b1b.svg)](https://arxiv.org/abs/2406.10322)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-![Overview](liere_sketch.png)
+## 🔍 Overview
 
-# Implementation for computing the rotation matrices
-We here share the code for implementing the rotation matrices. In short, every rotation matrix can be represented as the matrix exponential of a skew-symmetric matrix and we make the matrix learnable by parametrizing the rotations with generators before the matrix exponential.
+While Rotary Position Embeddings (RoPE) have become widely adopted for large language models, their application across other modalities has been limited. This repository introduces **Lie group Relative position Encodings (LieRE)**, which extends beyond RoPE to support n-dimensional inputs.
+
+<p align="center">
+  <img src="liere_sketch.png" alt="LieRE Overview" width="80%"/>
+</p>
+
+## 📈 Performance Highlights
+
+LieRE demonstrates significant improvements compared to baselines (DeiT III, RoPE-Mixed, and Vision-Llama):
+
+- **🎯 Accuracy**: Up to 9.7% increase for 2D tasks and 25.5% for 3D tasks compared to DeiT III (absolute position encoding)
+- **⚡ Training Efficiency**: 3.5x reduction in training time compared to DeiT III (absolute position encoding)
+- **📊 Data Efficiency**: 30% improvement in data utilization compared to DeiT III (absolute position encoding)
+
+## 💻 Implementation Details
+
+LieRE represents rotation matrices as the matrix exponential of skew-symmetric matrices, making them learnable by parametrizing the rotations with generators before applying the matrix exponential.
+
 ```python
+# Core Implementation
 generator_raw_params = nn.Parameter(
     torch.rand(
         input_dimensionality,
@@ -15,7 +32,6 @@ generator_raw_params = nn.Parameter(
         head_dim,
     ) * 2 * math.pi
 )
-
 upper_triangle = (
     torch.triu(generator_raw_params, diagonal=1)
 )
@@ -26,17 +42,46 @@ in_basis_positions = (
 generator_pos = torch.sum(in_basis_positions, dim=-3)
 rotation = torch.matrix_exp(generator_pos.to(dtype=torch.float32)).to(dtype=positions.dtype)
 ```
-# Base repo
-We used the transformer implementation and default hyperparameters of https://github.com/kentaroy47/vision-transformers-cifar10.
 
-# Usage
-To reproduce the results on CIFAR-100 use the follow command
-```sbatch -c 48 --gres=gpu:l40:4 --nodelist=rae1 --time=00:00:00 lightning_cifar100.sh```
-You can choose between the options `liere`, `rope_mixed`, `absolute` and `visionllama` for comparing position encodings. 
+## 🚀 Getting Started
 
-# Citation
-If you find this useful, please cite
+### 📦 Dependencies
+
+- PyTorch >= 1.7.0
+- PyTorch Lightning
+- torchvision
+
+### 🔧 Installation
+
+```bash
+git clone https://github.com/yourusername/liere-position-encodings.git
+cd liere-position-encodings
+pip install -r requirements.txt
 ```
+
+### 🏃‍♂️ Usage
+
+To reproduce the CIFAR-100 results, use:
+
+```bash
+sbatch -c 48 --gres=gpu:l40:4 --nodelist=rae1 --time=00:00:00 lightning_cifar100.sh
+```
+
+You can compare different position encoding methods using the following options:
+- `liere`: Our proposed method
+- `rope_mixed`: RoPE-Mixed baseline
+- `absolute`: Standard absolute position encoding
+- `visionllama`: Vision-Llama encoding
+
+## 🧩 Base Repository
+
+This implementation builds upon the transformer implementation and hyperparameters from [vision-transformers-cifar10](https://github.com/kentaroy47/vision-transformers-cifar10).
+
+## 📝 Citation
+
+If you find this work useful, please cite:
+
+```bibtex
 @article{ostmeier2024liere,
   title={LieRE: Generalizing Rotary Position Encodings},
   author={Ostmeier, Sophie and Axelrod, Brian and Moseley, Michael E and Chaudhari, Akshay and Langlotz, Curtis},
@@ -45,5 +90,11 @@ If you find this useful, please cite
 }
 ```
 
-# Other
-Much of the code was branched from [vision-transformers-cifar10](https://github.com/kentaroy47/vision-transformers-cifar10).
+## ⚖️ License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Much of the code was branched from [vision-transformers-cifar10](https://github.com/kentaroy47/vision-transformers-cifar10)
+- Thanks to all contributors and supporters of this research
