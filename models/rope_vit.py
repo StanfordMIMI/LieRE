@@ -269,7 +269,7 @@ class LierePositionEncoder(PositionEncoderBase):
         
         # print("The shape of generater_pos is: ", generator_pos.shape)
         # Commented out for experiment with learned bases.
-        
+        # TODO make arguement
         exp_method = ExponentiationMethod.EXPONENTIATE_ONE_SHOT
         # more memory efficient, especially for 3D, but nummerically not the same
         # exp_method = ExponentiationMethod.EXPONENTIATE_LOOP
