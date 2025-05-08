@@ -26,21 +26,16 @@ class FLOPsAnalysisCallback(Callback):
         self.input_shape = input_shape
 
     def on_fit_start(self, trainer, pl_module):
-        # Create a sample input tensor
         sample_input = torch.rand(self.input_shape).to(pl_module.device)
 
-        # Perform FLOPs analysis
         flops = FlopCountAnalysis(pl_module, sample_input)
         flops_table = flop_count_table(flops)
         total_flops = flops.total()
 
-        # Print the results
         print(flops_table)
         print(f"Total FLOPs: {total_flops}")
 
-        # Log to wandb
         if wandb.run is not None:
-            # Log total FLOPs
             wandb.log({"total_flops": total_flops})
 
         print(trainer.model)
@@ -143,8 +138,6 @@ class LiereImageClassification(lightning.LightningModule):
         self.shuffle_patches = params.shuffle_patches
         self.validation_step_outputs = []
 
-        self.save_hyperparameters(ignore="imsize")  # log hyperparameters to wandb/lightning.
-        self.save_hyperparameters({"model_imside":imsize}) # avoid the naming conflict between the dataloader and here.
         if hasattr(self.model, "position_encoder") and hasattr(self.model.position_encoder, "initialization_factor"):
             self.save_hyperparameters({"initialization_factor":self.model.position_encoder.initialization_factor})
 
