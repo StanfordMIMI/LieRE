@@ -64,7 +64,7 @@ pip install -r requirements.txt
 To reproduce the CIFAR-100 results, use:
 
 ```bash
-sbatch -c 48 --gres=gpu:l40:4 --nodelist=rae1 --time=00:00:00 lightning_cifar100.sh
+./lightning_cifar100.sh
 ```
 
 You can compare different position encoding methods using the following options:
