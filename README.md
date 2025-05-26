@@ -67,7 +67,7 @@ To reproduce the CIFAR-100 results, use:
 ./lightning_cifar100.sh
 ```
 
-You can compare different position encoding methods using the following options:
+You can switch between different position encoding methods in the `lightning_cifar100.sh` by using the following options:
 - `liere`: Our proposed method
 - `rope_mixed`: RoPE-Mixed baseline
 - `absolute`: Standard absolute position encoding
