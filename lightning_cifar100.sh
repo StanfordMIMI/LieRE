@@ -9,6 +9,7 @@ LAYER=True
 RUN_NAME="${NAME}_${POSITION_ENCODING}_${MODEL_SIZE}_${TIMESTAMP}"
 GENERATOR=64
 CKPT_NAME="${RUN_NAME}_${GENERATOR}"
+SAVE_CHECKPOINTS="/dataNAS/people/sostm/checkpoints"
 
 
 python lightning_main.py fit \
@@ -17,7 +18,7 @@ python lightning_main.py fit \
     --trainer.devices 2 \
     --trainer.accumulate_grad_batches 2 \
     --trainer.logger.init_args.name $RUN_NAME \
-    --trainer.callbacks.init_args.dirpath "/dataNAS/people/sostm/checkpoints/${RUN_NAME}" \
+    --trainer.callbacks.init_args.dirpath "${SAVE_CHECKPOINTS}/${RUN_NAME}" \
     --model.init_args.model_architecture $POSITION_ENCODING \
     --model.init_args.model_size $MODEL_SIZE \
     --model.init_args.freeze_liere False \
@@ -33,7 +34,7 @@ python lightning_main.py validate \
     --trainer.devices 1 \
     --trainer.accumulate_grad_batches 2 \
     --trainer.logger.init_args.name $RUN_NAME \
-    --trainer.callbacks.init_args.dirpath "/dataNAS/people/sostm/checkpoints/${RUN_NAME}" \
+    --trainer.callbacks.init_args.dirpath "${SAVE_CHECKPOINTS}/${RUN_NAME}" \
     --model.init_args.model_architecture $POSITION_ENCODING \
     --model.init_args.model_size $MODEL_SIZE \
     --model.init_args.freeze_liere False \
@@ -41,4 +42,4 @@ python lightning_main.py validate \
     --data.ablation_factor 1 \
     --model.init_args.rotary_embedding_per_layer $LAYER \
     --model.init_args.rotary_embedding_per_head $HEAD \
-    --ckpt "/dataNAS/people/sostm/checkpoints/${CKPT_NAME}/last.ckpt"
+    --ckpt "${SAVE_CHECKPOINTS}/${CKPT_NAME}/last.ckpt"
