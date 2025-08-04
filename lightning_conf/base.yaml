@@ -4,7 +4,7 @@ model:
 
 trainer:
   strategy: "ddp"
-  default_root_dir: "/dataNAS/people/sostm/vit_rope_scan/checkpoints"
+  default_root_dir: "."
   precision: "bf16-mixed"
   logger:
     class_path: lightning.pytorch.loggers.WandbLogger
