@@ -31,9 +31,6 @@ trainer:
   callbacks:
     - class_path: lightning.pytorch.callbacks.ModelCheckpoint # Don't log checkpoints for cifar100
       init_args:
-        # dirpath: null  # Disable default dirpath
-        # save_last: false
-        # dirpath: "/checkpoints/ufc101_absolute"
         dirpath: "."
         save_last: True
         every_n_train_steps: 0 # Disable the callback
