@@ -19,6 +19,9 @@ LieRE demonstrates significant improvements compared to baselines (DeiT III, RoP
 - **⚡ Training Efficiency**: 3.5x reduction in training time compared to DeiT III (absolute position encoding)
 - **📊 Data Efficiency**: 30% improvement in data utilization compared to DeiT III (absolute position encoding)
 
+## Checkpoints
+[08/12/2025] Update: We mafe the checkpoints used in the paper available on [huggingface](https://huggingface.co/collections/SophieOstmeier/liere-checkpoints-689bb8433a96b4adbc1876cb). Let us know if you find something new and exciting about them!
+
 ## 💻 Implementation Details
 
 LieRE represents rotation matrices as the matrix exponential of skew-symmetric matrices, making them learnable by parametrizing the rotations with generators before applying the matrix exponential.
