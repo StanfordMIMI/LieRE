@@ -20,7 +20,7 @@ LieRE demonstrates significant improvements compared to baselines (DeiT III, RoP
 - **📊 Data Efficiency**: 30% improvement in data utilization compared to DeiT III (absolute position encoding)
 
 ## Checkpoints
-[08/12/2025] Update: We mafe the checkpoints used in the paper available on [huggingface](https://huggingface.co/collections/SophieOstmeier/liere-checkpoints-689bb8433a96b4adbc1876cb). Let us know if you find something new and exciting about them!
+[08/12/2025] Update: We made the checkpoints available at [huggingface](https://huggingface.co/collections/SophieOstmeier/liere-checkpoints-689bb8433a96b4adbc1876cb). Let us know if you find something new and exciting about them!
 
 ## 💻 Implementation Details
 
